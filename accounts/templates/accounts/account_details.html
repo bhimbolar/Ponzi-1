@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load mytags %}
+{% load widget_tweaks %}
+{% block title %}RenzoMoney - Account Details {% endblock title %}
+{% block content %}
+    <div class="container">
+    {% include 'side_menu.html' %}
+                    <div class="form-signin col-sm-8">
+                    {% if messages %}
+                      <ul class="list-unstyled messages">
+                      {% for message in messages %}
+                        {% get_bootstrap_alert_msg_css_name message.tags as alert_tag %}
+                        <center class="alert alert-{{ alert_tag }}">{{ message }}</center>
+                      {% endfor %}
+                      </ul>
+                    {% endif %}
+                    <center><h4>Your Account Details</h4></center>
+                        <form method="post" action="" class="form-signin">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                {% render_field form.account_name class="form-control" placeholder=form.account_name.label %}
+                                {{ form.account_name.errors }}
+                            </div>
+                            <div class="form-group">
+                                {{ form.bank_name.label }}
+                                {% render_field form.bank_name class="form-control" placeholder=form.bank_name.label %}
+                                {{ form.bank_name.errors }}
+                            </div>
+                            <div class="form-group">
+                                {% render_field form.account_number class="form-control" placeholder=form.account_number.label %}
+                                {{ form.account_number.errors }}
+                            </div>
+                            <div class="form-group">
+                                {{ form.account_type.label }}
+                                {% render_field form.account_type class="form-control" placeholder=form.account_type.label %}
+                                {{ form.account_type.errors }}
+                            </div>
+                            <div class="form-group">
+                                <center><input class="btn btn-lg btn-info btn-block" type="submit" value="Submit" /></center>
+                                        <input type="hidden" name="next" value="{{ next }}" />
+                            </div>
+                        </form>
+                </div>
+    </div>
+
+{% endblock content %}

@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block title %}RenzoMoney - Dashboard {% endblock title %}
+{% block content %}
+    <div class="container">
+    <div class="alert alert-success" style="margin-top: 50px">
+        <h4>{% if user.userprofile.picture.url != "" %}
+            <img src="{{ user.userprofile.picture.url }}" width = "60" height = "60" style="border-radius: 50%"  />
+        {% else %}
+            <img src="https://cdn2.iconfinder.com/data/icons/ios-7-icons/50/user_male2-512.png" width = "60" height = "60" style="border-radius: 50%" />
+        {% endif %}&nbsp&nbsp<strong>Hello! {{ user.get_username }}, </strong>&nbsp&nbspWelcome to your Dashboard
+        {% if user.useraccount.plan_type != "" %}<strong style="float: right;padding-top: 15px;">Plan: {{ user.useraccount.plan_type }}</strong></h4>
+        {% if user.useraccount.confirm1 == 0 and user.useraccount.confirm2 == 0 %}
+        <center><a style="text-decoration: none" href="{% url 'match_wait_dashboard' %}" class="btn btn-success btn-lg" >Provide Help Now</a></center>
+         {% endif %}
+            {% if user.useraccount.confirm1 == 1 and user.useraccount.confirm2 == 1 %}
+            <center><a style="text-decoration: none" href="{% url 'get_wait_dashboard' %}" class="btn btn-success btn-lg" >Get Help Now</a></center>
+         {% endif %}
+        {% endif %}
+    </div>
+    {% if user.userprofile.phone == "" %}
+            <div class="alert alert-danger" style="padding: 8px 35px 8px 14px;">
+        <center><h5><strong>Profile Incomplete!!!</strong> Please go to your profile and enter phone number and name to get started</h5></center>
+        </div>
+        {% endif %}
+    {% if user.useraccount.account_number == "" %}
+    <div class="alert alert-danger" style="padding: 8px 35px 8px 14px;">
+        <center><h5><strong>Unverified Account!!!</strong> You need to submit your bank account details to get verified and select a plan</h5></center>
+    </div>
+    {% endif %}
+    {% include 'side_menu.html' %}
+
+        <center><h4>My Dashboard</h4></center>
+            <div class="col-sm-4">
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h3 class="panel-title">Get Help</h3>
+                </div>
+                <div class="panel-body">
+                  Helps Received
+                </div>
+              </div>
+              <div class="panel panel-primary">
+                <div class="panel-heading">
+                  <h3 class="panel-title">Provide Help</h3>
+                </div>
+                <div class="panel-body">
+                  Helps Provided
+                </div>
+              </div>
+            </div>
+               <div class="col-sm-4">
+              <div class="panel panel-warning">
+                <div class="panel-heading">
+                  <h3 class="panel-title">Pending PHs</h3>
+                </div>
+                <div class="panel-body">
+                  Number of Pending PHs
+                </div>
+              </div>
+              <div class="panel panel-info">
+                <div class="panel-heading">
+                  <h3 class="panel-title">Cleared PHs</h3>
+                </div>
+                <div class="panel-body">
+                  Number of Cleared PHs
+                </div>
+              </div>
+            </div>
+    </div>
+{% endblock content %}

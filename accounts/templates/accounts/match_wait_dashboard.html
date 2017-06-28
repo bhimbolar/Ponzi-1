@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+{% load static i18n %}
+{% load mytags %}
+{% load widget_tweaks %}
+{% block title %}RenzoMoney - Dashboard {% endblock title %}
+{% block content %}
+    <script src="{% static 'js/jquery-1.10.2.js' %}"></script>
+
+    <script src="{% static 'js/js.cookie.js' %}"></script>
+    <script>
+            var timeToPass = 10;
+
+                function setCounter(c) {
+
+                  var timeout = timeToPass - c,
+                      hours = Math.floor(timeout/3600),
+                      minutes = Math.floor(timeout%3600/60),
+                      seconds = timeout%60;
+                  $('#counter').text([hours + ' hours', minutes + ' minutes', seconds + ' seconds to go'].join(', '));
+                }
+
+                /* get the last time the user visited the page */
+                var lastTime = parseInt(($.cookie('timepassed') || new Date().getTime()), 10);
+                var timeAway = parseInt((new Date().getTime() - lastTime) / 1000, 10);
+                var timeElapsed = parseInt(($.cookie('mytimeout') || 0), 10);
+
+                /* add elapsed time to the count. If the count is negative, set it to 0 */
+                var count = Math.min(timeElapsed + timeAway, timeToPass);
+
+                /* set an interval that adds seconds to the count */
+                setCounter(count);
+                var interval = setInterval(function () {
+                    count++;
+                    setCounter(count);
+                    /* plus, you can do something you want to do every second here,
+                     like display the countdown to the user */
+                }, 1000);
+
+                /* set a timeout that expires 900000 Milliseconds (15 Minutes) -
+                   the already passed time from now */
+                var timeout = setTimeout(function () {
+                    /* put here what you want to do once the timer epires */
+                    window.location = "{% url 'match_dashboard' plan=user.useraccount.plan_type id=user.useraccount.pk idp=user.userprofile.pk %}"
+                }, timeToPass * 1000 - count * 1000);
+
+                /* before the window is reloaded or closed, store the current timeout in a cookie.
+                   For cookie options visit jquery-cookie */
+                window.onbeforeunload = function () {
+                    $.cookie('mytimeout', count, {
+                        expires: 7,
+                        path: '/'
+                    });
+                    $.cookie('timepassed', new Date().getTime(), {
+                        expires: 7,
+                        path: '/'
+                    });
+                };
+    </script>
+    <div class="container">
+    <div class="alert alert-success" style="margin-top: 50px">
+        <h4>{% if user.userprofile.picture.url != "" %}
+            <img src="{{ user.userprofile.picture.url }}" width = "60" height = "60" style="border-radius: 50%"  />
+        {% else %}
+            <img src="https://cdn2.iconfinder.com/data/icons/ios-7-icons/50/user_male2-512.png" width = "60" height = "60" style="border-radius: 50%" />
+        {% endif %}&nbsp&nbsp<strong>Hello! {{ user.get_username }}, </strong>&nbsp&nbspWelcome to your Dashboard
+        {% if user.useraccount.plan_type != "" %}<strong style="float: right;padding-top: 15px;">Plan: {{ user.useraccount.plan_type }}</strong></h4>
+        {% endif %}
+    </div>
+    {% include 'side_menu.html' %}
+        <h4>Almost There</h4>
+            <div class="col-sm-6">
+              <div class="panel panel-success">
+                <div class="panel-heading">
+                  <h5>Please, You have to wait 15 minutes before you get matched, and DON'T REFRESH this page so as not to re-queue you.</h5>
+                </div>
+                <div class="panel-body">
+                    <center><strong><div id="counter"></div></strong></center>
+                </div>
+              </div>
+            </div>
+    </div>
+
+{% endblock content %}

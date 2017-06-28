@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load mytags %}
+{% load widget_tweaks %}
+{% block title %}RenzoMoney - Dashboard {% endblock title %}
+{% block content %}
+    <div class="container">
+    <div class="alert alert-success" style="margin-top: 50px">
+        <h4>{% if user.userprofile.picture.url != "" %}
+            <img src="{{ user.userprofile.picture.url }}" width = "60" height = "60" style="border-radius: 50%"  />
+        {% else %}
+            <img src="https://cdn2.iconfinder.com/data/icons/ios-7-icons/50/user_male2-512.png" width = "60" height = "60" style="border-radius: 50%" />
+        {% endif %}&nbsp&nbsp<strong>Hello! {{ user.get_username }}, </strong>&nbsp&nbspWelcome to your Dashboard
+        {% if user.useraccount.plan_type != "" %}<strong style="float: right;padding-top: 15px;">Plan: {{ user.useraccount.plan_type }}</strong></h4>
+        {% endif %}
+    </div>
+    {% include 'side_menu.html' %}
+
+        <h4>Provide Help</h4>
+            <div class="col-sm-6">
+            <div id="payment_info">
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h3 class="panel-title"><strong>Name: {{ next_client|capfirst }}</strong></h3>
+                </div>
+                <div class="panel-body">
+                    {% if next_client_profile.picture.url != "" %}
+                        <img style="float: right" src="{{ next_client_profile.picture.url }}" width = "100" height = "100" style="border-radius: 50%"  />
+                    {% else %}
+                        <img style="float: right" src="https://cdn2.iconfinder.com/data/icons/ios-7-icons/50/user_male2-512.png" width = "100" height = "100" style="border-radius: 50%" />
+                    {% endif %}
+                    <p>Phone Number: {{ next_client_profile.phone }}</p>
+                    <strong><h5><u>Bank Details</u></h5></strong>
+                    <p>Account Number: {{ next_client.account_number }}</p>
+                    <p>Bank Name: {{ next_client.bank_name }}</p>
+                    <p>Account Type: {{ next_client.account_type }}</p><center>
+                    {% if messages %}
+                      <ul class="list-unstyled messages">
+                      {% for message in messages %}
+                        {% get_bootstrap_alert_msg_css_name message.tags as alert_tag %}
+                        <center class="alert alert-{{ alert_tag }}">{{ message }}</center>
+                      {% endfor %}
+                      </ul>
+                    {% endif %}
+                    <form action="" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="form-group">
+                                {% render_field form.image class="form-control" placeholder=form.image.label %}
+                                {{ form.image.errors }}
+                            </div>
+                        <input class="btn btn-lg btn-info btn-block" type="submit" value="Submit" />
+                    </form>
+                        <h6><strong>Upload a Scanned document or picture as a proof of Successful Transaction.</strong></h6></center>
+
+
+                </div>
+              </div>
+            </div>
+            </div>
+    </div>
+{% endblock content %}

@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load mytags %}
+{% load widget_tweaks %}
+{% block title %}RenzoMoney - Dashboard {% endblock title %}
+{% block content %}
+    <div class="container">
+    <div class="alert alert-success" style="margin-top: 50px">
+        <h4>{% if user.userprofile.picture.url != "" %}
+            <img src="{{ user.userprofile.picture.url }}" width = "60" height = "60" style="border-radius: 50%"  />
+        {% else %}
+            <img src="https://cdn2.iconfinder.com/data/icons/ios-7-icons/50/user_male2-512.png" width = "60" height = "60" style="border-radius: 50%" />
+        {% endif %}&nbsp&nbsp<strong>Hello! {{ user.get_username }}, </strong>&nbsp&nbspWelcome to your Dashboard
+        {% if user.useraccount.plan_type != "" %}<strong style="float: right;padding-top: 15px;">Plan: {{ user.useraccount.plan_type }}</strong></h4>
+        {% endif %}
+    </div>
+    {% include 'side_menu.html' %}
+
+        <h4>Plan Selection Confirmation</h4>
+            <div class="col-sm-6">
+            <div id="payment_info">
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h3 class="panel-title"><strong>Successfully Updated</strong></h3>
+                </div>
+                <div class="panel-body">
+                    You just selected the {{ plan }} plan.<br/>
+                    Now you can provide help
+                </div>
+              </div>
+            </div>
+            </div>
+    </div>
+{% endblock content %}

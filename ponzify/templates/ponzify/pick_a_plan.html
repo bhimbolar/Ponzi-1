@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block title %} Select A Plan {% endblock title %}
+{% block content %}
+    <div class="container">
+    {% include 'side_menu.html' %}
+    <center><h4>Pick A Plan</h4></center>
+        {% if plans %}
+            {% for plan in plans %}
+            <div class="col-sm-4">
+                        {% if plan.name|capfirst  == 'Gold' %}
+                            <div class="panel panel-warning">
+                                {% else %}
+                                    <div class="panel panel-danger">
+                                        {% endif %}
+                <div class="panel-heading">
+                    <h3 class="panel-title">{{ plan.name|capfirst }} - {{ plan.amount }}</h3>
+                </div>
+                <div class="panel-body">
+                    <p>Matrix: {{ plan.matrix }}</p>
+                    <p>Description: {{ plan.description }}</p>
+                    <a style="float: right" href="{% url 'selected_plan' id=user.useraccount.pk plan=plan.name %}" class="btn btn-success btn-xs">Select</a>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <div class="alert alert-danger col-sm-6">
+                <p><strong>Oops!!!</strong>No Plans Found Yet, Check back Some Other Time</p>
+            </div>
+        {% endif %}
+    </div>
+{% endblock content %}
