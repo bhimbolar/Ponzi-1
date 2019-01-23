@@ -1,4 +1,4 @@
-This is a PONZI Scheme Web APP Developed With Django(Python) More Powerful Than The Likes of MMM and Loopers. 
+# This is a PONZI Scheme Web APP Developed With Django(Python) More Powerful Than The Likes of MMM and Loopers. 
 
 https://ponzing.pythonanywhere.com
 
@@ -15,6 +15,7 @@ mkvirtualenv (your virtual environment name)
 it sets up necessary python packages to start your development then you see the name in rounded brackets before your machine's username. 
 If you get "command error" on creating the virtual environment.
 sudo gedit .bashrc and add this at the bottom of the script 
+
 #Virtualenvwrapper settings 
 export WORKON_HOME = $HOME/.virtualenvs
 export PROJECT_HOME = $HOME/Projects
