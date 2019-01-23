@@ -30,6 +30,6 @@ python manage.py createsuperuser to create an admin account which can be accesse
 
 If you encounter a "no auth_profile table" error, then do the makemigrations and migrate one after the other for each individual 3rd party app in the settings.py file. and run the createsuperuser again. 
 
-configure the mail settings to enable email sending on password reset. 
+configure the mail settings to enable email sending on password reset.
 
 python manage.py runserver to start your server 
